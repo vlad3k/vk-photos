@@ -2,27 +2,28 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import User from '../components/user/user'
 import Page from '../components/page/page'
-import { setYear } from '../actions/PageActions'
+import { getPhotos } from '../actions/PageActions'
 
 import './app.css'
 
 class App extends Component {
   render() {
-    const { user, page, setYear } = this.props
+    const { user, page, getPhotos } = this.props
     return (
       <div className="app">
-        <header className="app-header">
-          <h1 className="app-title">Мой топ фото</h1>
-        </header>
+        <Page
+          photos={page.photos}
+          year={page.year}
+          isFetching={page.isFetching}
+          getPhotos={getPhotos}
+        />
         <User name={user.name} />
-        <Page photos={page.photos} year={page.year} setYear={setYear} />
       </div>
     )
   }
 }
 
 const mapStateToProps = store => {
-  console.log(store)
   return {
     user: store.user,
     page: store.page,
@@ -30,7 +31,7 @@ const mapStateToProps = store => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  setYear: year => dispatch(setYear(year)),
+  getPhotos: year => dispatch(getPhotos(year)),
 })
 
 export default connect(
